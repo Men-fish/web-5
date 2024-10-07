@@ -19,7 +19,6 @@ func calculator(firstChan <-chan int, secondChan <-chan int, stopChan <-chan str
 	}()
 	return resultChan
 }
-
 func main() {
 	firstChan := make(chan int)
 	secondChan := make(chan int)
@@ -27,7 +26,7 @@ func main() {
 
 	result := calculator(firstChan, secondChan, stopChan)
 	go func() {
-		//firstChan <- 7
+		firstChan <- 7
 		secondChan <- 8
 		close(firstChan)
 		close(secondChan)
