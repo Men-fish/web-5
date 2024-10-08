@@ -4,7 +4,7 @@ import (
 	"fmt"
 )
 
-func calculator(firstChan <-chan int, secondChan <-chan int, stopChan <-chan struct{}) <-chan int {
+func calculator(firstChan <-chan int, secondChan <-chan int, stopChan <-chan int) <-chan int {
 	resultChan := make(chan int)
 	go func() {
 		defer close(resultChan)
@@ -19,15 +19,17 @@ func calculator(firstChan <-chan int, secondChan <-chan int, stopChan <-chan str
 	}()
 	return resultChan
 }
+
 func main() {
 	firstChan := make(chan int)
 	secondChan := make(chan int)
-	stopChan := make(chan struct{})
+	stopChan := make(chan int)
 
 	result := calculator(firstChan, secondChan, stopChan)
 	go func() {
-		firstChan <- 7
-		secondChan <- 8
+		// firstChan <- 7
+		// secondChan <- 8
+		stopChan <- 8
 		close(firstChan)
 		close(secondChan)
 		close(stopChan)
